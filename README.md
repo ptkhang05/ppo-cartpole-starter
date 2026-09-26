@@ -28,7 +28,7 @@ Video minh họa một episode đánh giá trong môi trường CartPole-v1. Pol
 
 ![Training terminal](assets/terminal-training.png)
 
-Kết quả cuối quá trình huấn luyện cho thấy mean reward và mean episode length đều đạt 500. CartPole-v1 giới hạn mỗi episode ở 500 timestep, nên các lần đánh giá định kỳ tại thời điểm này đã đi đến giới hạn của episode. Giá trị `total_timesteps` cuối là 100352 thay vì đúng 100000 vì PPO thu thập theo từng rollout gồm 1024 timestep; rollout cuối phải được thu thập trọn vẹn trước khi cập nhật.
+Bảng terminal ghi `eval/mean_reward=500` và `eval/mean_ep_length=500` ở lần đánh giá tại 100000 timestep; các metric rollout được in sau đó cũng bằng 500. CartPole-v1 giới hạn mỗi episode ở 500 timestep, nên các episode dùng để tính các metric hiển thị đã đi đến time limit. Giá trị `total_timesteps` cuối là 100352 vì `total_timesteps=100000` là cận dưới trong Stable-Baselines3 và PPO thu đủ rollout 1024 bước trước khi dừng.
 
 ![PPO training curve](assets/training-curve.png)
 
@@ -36,7 +36,7 @@ Kết quả cuối quá trình huấn luyện cho thấy mean reward và mean ep
 
 ![Evaluation summary](assets/evaluation-summary.png)
 
-Mô hình được đánh giá trên 20 episode bắt đầu từ seed 1000. Mean, min và max return đều bằng 500, còn standard deviation bằng 0, nghĩa là cả 20 episode của lần đánh giá đều đạt 500 timestep. Kết quả này xác nhận policy chạy ổn định trên tập episode đã đánh giá; nó không thay thế việc thử thêm nhiều seed huấn luyện khi cần so sánh thuật toán.
+Mô hình được đánh giá trên 20 episode với seed khởi tạo từ 1000 đến 1019. File kết quả ghi nhận return của cả 20 episode đều bằng 500; vì vậy mean, min và max bằng 500, còn sample standard deviation bằng 0. Kết quả này chỉ mô tả policy của lần huấn luyện seed 42 trên 20 trạng thái khởi tạo nói trên; nó chưa đo biến thiên giữa nhiều seed huấn luyện.
 
 ## Nguồn kỹ thuật
 
