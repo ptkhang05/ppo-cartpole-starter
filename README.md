@@ -1,6 +1,6 @@
 # PPO CartPole Starter
 
-Project nhỏ dùng **Proximal Policy Optimization (PPO)** của Stable-Baselines3 để huấn luyện agent giữ thăng bằng thanh trên xe trong `CartPole-v1`.
+Huấn luyện và đánh giá **Proximal Policy Optimization (PPO)** trên môi trường `CartPole-v1` bằng Stable-Baselines3.
 
 ## 1. Yêu cầu
 
@@ -34,9 +34,13 @@ python -m pip install -r requirements.txt
 python -m src.train --timesteps 100000 --seed 42
 ```
 
-Để thử nhanh luồng chạy, có thể dùng `--timesteps 5000`. Kết quả của lần chạy ngắn chỉ dùng để kiểm tra chương trình, không đại diện cho hiệu năng cuối.
+Chạy thử với số bước ngắn hơn:
 
-Sau khi huấn luyện, project tạo:
+```bash
+python -m src.train --timesteps 5000 --seed 42
+```
+
+Đầu ra:
 
 ```text
 models/ppo_cartpole.zip          mô hình cuối
@@ -54,7 +58,7 @@ outputs/training_curve.csv       dữ liệu của đồ thị
 python -m src.evaluate --model models/ppo_cartpole.zip --episodes 20 --video
 ```
 
-Các đầu ra cần dùng cho báo cáo:
+Đầu ra:
 
 ```text
 outputs/evaluation_summary.json  mean, standard deviation, min và max return
@@ -74,16 +78,7 @@ python -m src.evaluate --model models/ppo_cartpole.zip --episodes 20
 python -m pytest -q
 ```
 
-## 6. Ảnh nên chụp để đưa vào báo cáo
-
-1. Cửa sổ terminal sau khi lệnh train kết thúc.
-2. File `outputs/training_curve.png`.
-3. Nội dung `outputs/evaluation_summary.json`.
-4. Một khung hình từ video trong thư mục `videos/`.
-
-Gửi bốn ảnh trên cùng file JSON cho người biên soạn báo cáo. Không thay số liệu của lần chạy bằng số liệu mẫu từ README.
-
-## 7. Cấu hình PPO đang dùng
+## 6. Cấu hình PPO
 
 | Tham số | Giá trị | Ý nghĩa |
 |---|---:|---|
@@ -100,4 +95,3 @@ Gửi bốn ảnh trên cùng file JSON cho người biên soạn báo cáo. Kh�
 - [PPO paper](https://arxiv.org/abs/1707.06347)
 - [Stable-Baselines3 PPO documentation](https://stable-baselines3.readthedocs.io/en/master/modules/ppo.html)
 - [Gymnasium CartPole documentation](https://gymnasium.farama.org/environments/classic_control/cart_pole/)
-
