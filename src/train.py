@@ -77,7 +77,7 @@ def train(total_timesteps: int, seed: int, root: Path) -> Path:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Huấn luyện PPO trên CartPole-v1.")
+    parser = argparse.ArgumentParser(description="Huan luyen PPO tren CartPole-v1.")
     parser.add_argument("--timesteps", type=int, default=100_000)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--root", type=Path, default=Path("."))
@@ -86,5 +86,4 @@ def parse_args() -> argparse.Namespace:
 
 if __name__ == "__main__":
     args = parse_args()
-    print(f"Đã lưu mô hình tại: {train(args.timesteps, args.seed, args.root)}")
-
+    print(f"Da luu mo hinh tai: {train(args.timesteps, args.seed, args.root)}")

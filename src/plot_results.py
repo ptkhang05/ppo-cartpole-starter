@@ -11,21 +11,21 @@ from stable_baselines3.common.monitor import load_results
 def make_training_plot(log_dir: Path, output_path: Path, window: int = 20) -> Path:
     data = load_results(str(log_dir)).sort_values("t")
     if data.empty:
-        raise ValueError(f"Không tìm thấy episode nào trong {log_dir}")
+        raise ValueError(f"Khong tim thay episode hoan tat trong {log_dir}")
 
     data["episode"] = range(1, len(data) + 1)
     data["rolling_return"] = data["r"].rolling(window, min_periods=1).mean()
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     fig, ax = plt.subplots(figsize=(9, 5))
-    ax.plot(data["episode"], data["r"], alpha=0.28, label="Return mỗi episode")
+    ax.plot(data["episode"], data["r"], alpha=0.28, label="Return moi episode")
     ax.plot(
         data["episode"],
         data["rolling_return"],
         linewidth=2,
-        label=f"Trung bình trượt ({window} episode)",
+        label=f"Trung binh truot ({window} episode)",
     )
-    ax.set(xlabel="Episode", ylabel="Return", title="PPO trên CartPole-v1")
+    ax.set(xlabel="Episode", ylabel="Return", title="PPO tren CartPole-v1")
     ax.grid(alpha=0.25)
     ax.legend()
     fig.tight_layout()
@@ -39,7 +39,7 @@ def make_training_plot(log_dir: Path, output_path: Path, window: int = 20) -> Pa
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Vẽ đường cong huấn luyện PPO.")
+    parser = argparse.ArgumentParser(description="Ve duong cong huan luyen PPO.")
     parser.add_argument("--log-dir", type=Path, default=Path("logs/train"))
     parser.add_argument("--output", type=Path, default=Path("outputs/training_curve.png"))
     parser.add_argument("--window", type=int, default=20)
@@ -49,4 +49,3 @@ def parse_args() -> argparse.Namespace:
 if __name__ == "__main__":
     args = parse_args()
     print(make_training_plot(args.log_dir, args.output, args.window))
-

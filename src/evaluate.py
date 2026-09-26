@@ -69,7 +69,7 @@ def evaluate(model_path: Path, episodes: int, seed: int, root: Path, video: bool
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Đánh giá mô hình PPO đã huấn luyện.")
+    parser = argparse.ArgumentParser(description="Danh gia mo hinh PPO da huan luyen.")
     parser.add_argument("--model", type=Path, default=Path("models/ppo_cartpole.zip"))
     parser.add_argument("--episodes", type=int, default=20)
     parser.add_argument("--seed", type=int, default=1_000)
@@ -83,4 +83,3 @@ if __name__ == "__main__":
     result = evaluate(args.model, args.episodes, args.seed, args.root, args.video)
     for key, value in result.items():
         print(f"{key}: {value}")
-
