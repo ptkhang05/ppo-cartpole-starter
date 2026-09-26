@@ -5,7 +5,7 @@ Huấn luyện và đánh giá **Proximal Policy Optimization (PPO)** trên môi
 ## 1. Yêu cầu
 
 - Python 3.11 đến 3.13
-- Windows, Linux hoặc macOS
+- Windows 10 hoặc Windows 11
 - CPU là đủ cho cấu hình mặc định
 
 ## 2. Cài đặt
