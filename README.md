@@ -1,86 +1,55 @@
-# PPO CartPole Starter
+# PPO CartPole
 
-Huấn luyện và đánh giá **Proximal Policy Optimization (PPO)** trên môi trường `CartPole-v1` bằng Stable-Baselines3.
+## Video
 
-## 1. Yêu cầu
-
-- Python 3.11 đến 3.13
-- Windows 10 hoặc Windows 11
-- CPU là đủ cho cấu hình mặc định
-
-## 2. Cài đặt
+Lệnh đánh giá có tùy chọn `--video` để ghi lại một episode dưới dạng MP4. Video được lưu trong thư mục `videos/` và cho phép quan sát trực tiếp hành động của policy sau huấn luyện.
 
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+python -m src.evaluate --model models/ppo_cartpole.zip --episodes 20 --video
 ```
 
-## 3. Huấn luyện
+## Cấu hình PPO
 
-```bash
-python -m src.train --timesteps 100000 --seed 42
-```
+| Tham số | Giá trị | Lý do lựa chọn |
+|---|---:|---|
+| `policy` | `MlpPolicy` | Observation của CartPole là vector bốn chiều nên mạng fully connected đáp ứng đúng dạng dữ liệu đầu vào. |
+| `total_timesteps` | `100000` | Cung cấp nhiều chu kỳ rollout và cập nhật trong khi thời gian chạy trên CPU vẫn ở quy mô của một bài thực hành. |
+| `learning_rate` | `3e-4` | Giá trị mặc định của PPO trong Stable-Baselines3; được giữ cố định để giới hạn số tham số cần khảo sát. |
+| `n_steps` | `1024` | Mỗi rollout chứa đủ transition để tính GAE trên nhiều episode, đồng thời nhỏ hơn cấu hình mặc định `2048` để cập nhật thường xuyên hơn. |
+| `batch_size` | `64` | `1024` chia hết cho `64`, do đó mỗi epoch gồm 16 mini-batch đầy đủ. |
+| `n_epochs` | `10` | Mỗi rollout được dùng qua 10 lượt cập nhật, bằng cấu hình mặc định của Stable-Baselines3 PPO. |
+| `gamma` | `0.99` | Reward trong tương lai giảm chậm, phù hợp với mục tiêu giữ thanh thăng bằng trong nhiều timestep liên tiếp. |
+| `gae_lambda` | `0.95` | Giá trị mặc định của Stable-Baselines3, nằm giữa TD một bước và ước lượng gần Monte Carlo. |
+| `clip_range` | `0.2` | Probability ratio được clip quanh 1 trong khoảng `[0.8, 1.2]`, theo cấu hình PPO-Clip mặc định. |
+| `ent_coef` | `0.0` | Không thêm entropy bonus; mức ngẫu nhiên đến từ phân phối action của policy trong quá trình thu rollout. |
+| `vf_coef` | `0.5` | Đặt trọng số value loss bằng một nửa trong objective tổng, theo cấu hình mặc định của thư viện. |
+| `max_grad_norm` | `0.5` | Giới hạn norm của gradient để giảm các bước cập nhật có độ lớn bất thường. |
+| `seed` | `42` | Cố định lần chạy mặc định để có thể lặp lại cùng cấu hình; đánh giá cuối vẫn cần nhiều seed nếu dùng để so sánh. |
 
-Chạy thử với số bước ngắn hơn:
+## Kết quả
 
-```bash
-python -m src.train --timesteps 5000 --seed 42
-```
-
-Đầu ra:
+Sau huấn luyện:
 
 ```text
 models/ppo_cartpole.zip          mô hình cuối
 models/best/best_model.zip       mô hình có mean return đánh giá cao nhất
-logs/train/monitor.csv           return và độ dài từng episode train
+logs/train/monitor.csv           return và độ dài từng episode
 logs/eval/evaluations.npz        kết quả đánh giá định kỳ
 outputs/training_config.json     cấu hình huấn luyện
-outputs/training_curve.png       đồ thị return
-outputs/training_curve.csv       dữ liệu của đồ thị
+outputs/training_curve.png       đường cong return
+outputs/training_curve.csv       dữ liệu của đường cong
 ```
 
-## 4. Đánh giá và ghi video
-
-```bash
-python -m src.evaluate --model models/ppo_cartpole.zip --episodes 20 --video
-```
-
-Đầu ra:
+Sau đánh giá:
 
 ```text
 outputs/evaluation_summary.json  mean, standard deviation, min và max return
-outputs/evaluation_episodes.csv  kết quả từng episode
-videos/ppo-cartpole-episode-0.mp4 video một episode đánh giá
+outputs/evaluation_episodes.csv  return và độ dài của từng episode
+videos/ppo-cartpole-episode-0.mp4 video của episode được ghi lại
 ```
-
-Nếu chỉ muốn lấy số liệu mà không ghi video:
-
-```bash
-python -m src.evaluate --model models/ppo_cartpole.zip --episodes 20
-```
-
-## 5. Chạy kiểm thử
-
-```bash
-python -m pytest -q
-```
-
-## 6. Cấu hình PPO
-
-| Tham số | Giá trị | Ý nghĩa |
-|---|---:|---|
-| `learning_rate` | `3e-4` | Kích thước bước cập nhật tham số |
-| `n_steps` | `1024` | Số transition thu trước mỗi pha cập nhật |
-| `batch_size` | `64` | Số mẫu trong một mini-batch |
-| `n_epochs` | `10` | Số lượt tái sử dụng rollout |
-| `gamma` | `0.99` | Hệ số chiết khấu |
-| `gae_lambda` | `0.95` | Hệ số GAE |
-| `clip_range` | `0.2` | Biên clipping của probability ratio |
 
 ## Nguồn kỹ thuật
 
-- [PPO paper](https://arxiv.org/abs/1707.06347)
-- [Stable-Baselines3 PPO documentation](https://stable-baselines3.readthedocs.io/en/master/modules/ppo.html)
-- [Gymnasium CartPole documentation](https://gymnasium.farama.org/environments/classic_control/cart_pole/)
+- [Proximal Policy Optimization Algorithms](https://arxiv.org/abs/1707.06347)
+- [Stable-Baselines3 PPO](https://stable-baselines3.readthedocs.io/en/master/modules/ppo.html)
+- [Gymnasium CartPole](https://gymnasium.farama.org/environments/classic_control/cart_pole/)
