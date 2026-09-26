@@ -18,14 +18,14 @@ def make_training_plot(log_dir: Path, output_path: Path, window: int = 20) -> Pa
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     fig, ax = plt.subplots(figsize=(9, 5))
-    ax.plot(data["episode"], data["r"], alpha=0.28, label="Return moi episode")
+    ax.plot(data["episode"], data["r"], alpha=0.28, label="Episode return")
     ax.plot(
         data["episode"],
         data["rolling_return"],
         linewidth=2,
-        label=f"Trung binh truot ({window} episode)",
+        label=f"Moving average ({window} episodes)",
     )
-    ax.set(xlabel="Episode", ylabel="Return", title="PPO tren CartPole-v1")
+    ax.set(xlabel="Episode", ylabel="Return", title="PPO on CartPole-v1")
     ax.grid(alpha=0.25)
     ax.legend()
     fig.tight_layout()
