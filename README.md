@@ -2,7 +2,9 @@
 
 ## Video
 
-Lệnh đánh giá có tùy chọn `--video` để ghi lại một episode dưới dạng MP4. Video được lưu trong thư mục `videos/` và cho phép quan sát trực tiếp hành động của policy sau huấn luyện.
+![PPO CartPole](assets/ppo-cartpole.gif)
+
+Ảnh động trên được tạo từ policy sau 100.000 timestep huấn luyện. Lệnh đánh giá có tùy chọn `--video` để ghi một episode mới dưới dạng MP4 trong thư mục `videos/`.
 
 ```powershell
 python -m src.evaluate --model models/ppo_cartpole.zip --episodes 20 --video
