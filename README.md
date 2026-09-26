@@ -26,25 +26,11 @@ Video minh họa một episode đánh giá trong môi trường CartPole-v1. Pol
 
 ## Kết quả
 
-Sau huấn luyện:
+![Training terminal](assets/terminal-training.png)
 
-```text
-models/ppo_cartpole.zip          mô hình cuối
-models/best/best_model.zip       mô hình có mean return đánh giá cao nhất
-logs/train/monitor.csv           return và độ dài từng episode
-logs/eval/evaluations.npz        kết quả đánh giá định kỳ
-outputs/training_config.json     cấu hình huấn luyện
-outputs/training_curve.png       đường cong return
-outputs/training_curve.csv       dữ liệu của đường cong
-```
+![PPO training curve](assets/training-curve.png)
 
-Sau đánh giá:
-
-```text
-outputs/evaluation_summary.json  mean, standard deviation, min và max return
-outputs/evaluation_episodes.csv  return và độ dài của từng episode
-videos/ppo-cartpole-episode-0.mp4 video của episode được ghi lại
-```
+![Evaluation summary](assets/evaluation-summary.png)
 
 ## Nguồn kỹ thuật
 
