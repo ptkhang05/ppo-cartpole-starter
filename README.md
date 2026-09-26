@@ -10,20 +10,9 @@ Huấn luyện và đánh giá **Proximal Policy Optimization (PPO)** trên môi
 
 ## 2. Cài đặt
 
-### Windows PowerShell
-
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-```
-
-### Linux hoặc macOS
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
